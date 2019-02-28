@@ -1,4 +1,4 @@
-import { Currency } from '../currency/currency';
+import { Currency } from '../../interfaces/currency/currency';
 
 class Converter {
 

@@ -1,0 +1,21 @@
+version: "3"
+networks:
+  cache:
+services:
+  redis:
+    image: redis
+    container_name: cache
+    networks: 
+      - cache
+  worker:
+    build: ./worker
+    container_name: worker
+    env_file: .env
+    depends_on:
+      - redis
+    links:
+      - redis
+    networks:
+      - cache
+    environment:
+      - REDIS_HOST=redis://cache

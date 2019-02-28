@@ -5,6 +5,26 @@
     "version": "0.2.0",
     "configurations": [
 
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "worker - dev",
+            "cwd":"${workspaceFolder}/worker/",
+            "program":"${workspaceFolder}/worker/worker.ts",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/worker/**/*.js"
+            ],
+            "env":{
+                "NODE_ENV":"development",
+                "API_KEY_OEX":"8f0b010d875c4ad5822472c1edeb8870",
+                "REDIS_HOST":"redis://cache"
+            }
+            
+
+        },
+
         {
             "type": "node",
             "request": "launch",

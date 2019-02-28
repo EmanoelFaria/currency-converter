@@ -5,7 +5,11 @@
         "declaration": false,
         "noImplicitAny": false,
         "removeComments": true,
-        "noLib": false
+        "sourceMap": true,
+        "rootDir": ".",
+        "outDir": ".",
+        "noLib": false,
+        "types" : ["node"],
     },
     "include": [
         "**/*"
@@ -13,4 +17,5 @@
     "exclude": [
         "node_modules",
         "**/*.spec.ts"
-    ]}
+    ]
+}

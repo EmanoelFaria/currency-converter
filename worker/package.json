@@ -1,0 +1,24 @@
+
+{
+  "name": "worker-currency",
+  "version": "1.0.0",
+  "description": "Responsável por buscar as cotações e salva-las em database(s)",
+  "main": "worker.js",
+  "dependencies": {
+    "config": "^2.0.1",
+    "request": "^2.88.0",
+    "redis": "^2.8.0",
+    "dotenv": "^6.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmanoelFaria/currency-converter.git"
+  },
+  "author": "Emanoel Faria <emanoel-faria@hotmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EmanoelFaria/currency-converter/issues"
+  },
+  "homepage": "https://github.com/EmanoelFaria/currency-converter#readme"
+}
+

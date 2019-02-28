@@ -1,0 +1,20 @@
+{
+    "provider":"OpenExchange",
+    "CurrencyExchanges":{
+        "OpenExchange":{
+            "url_base": "https://openexchangerates.org/api/latest.json",
+            "currencies": ["USD","BRL","EUR","BTC","ETH"],
+            "lastro":"USD"
+        }
+    },
+    "Cache":{
+        "Redis":{
+
+        }
+    },
+    "worker":{
+        "refresh_currency_time_minute": 10
+    }
+
+
+}
