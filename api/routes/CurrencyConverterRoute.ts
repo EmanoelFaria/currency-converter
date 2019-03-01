@@ -2,12 +2,13 @@ import * as config from 'config';
 import { NextFunction, Request, Response, Router } from "express";
 
 import { CurrencyConverter } from '../services/CurrencyConverter/CurrencyConverter';
+const currencyConverter = new CurrencyConverter()
 
 export class CurrencyConverterRoute {
 
     public static create(router: Router) {
         
-        router.get("/", (req: Request, res: Response, next: NextFunction) => {
+        router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 
             if(!this.hasConversionFields(req.query)) {
                 let fields = Object.keys(req.query).toString()
@@ -31,7 +32,7 @@ export class CurrencyConverterRoute {
             let amount = req.query.amount
             let currencies = config.currencies
             
-            let result = CurrencyConverter.convertfromToCurrency(from,to,amount,currencies)
+            let result = await currencyConverter.convertfromToCurrency(from,to,amount,currencies)
 
             if(!result) {
                 res.status(500).send({error:"There was an error while trying to convert. Try again"})
@@ -46,7 +47,6 @@ export class CurrencyConverterRoute {
             }
 
             res.status(200).send(response)
-
 
         });
         

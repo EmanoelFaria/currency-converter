@@ -19,3 +19,22 @@ services:
       - cache
     environment:
       - REDIS_HOST=redis://cache
+  api:
+    hostname: api
+    container_name: api
+    build: 
+      context: ./api
+      args:
+        - appname=api
+    depends_on:
+      - redis
+      - worker
+    links:
+      - redis
+    networks:
+      - cache
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - REDIS_HOST=redis://cache

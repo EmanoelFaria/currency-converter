@@ -12,16 +12,18 @@ const config = require("config");
 const Cache_1 = require("../Cache/Cache");
 class CurrencyConverter {
     constructor() {
-        this.LOCAL_STORAGE = new Cache_1.Cache(config.database.name, config.cache.timeout_minute);
+        this.CACHE = new Cache_1.Cache(config.database.name, config.cache.timeout_minute);
     }
-    static convertCurrencyToUSD(currency_key, currency_value, decimal_range = 3) {
+    convertCurrencyToUSD(currency_key, currency_value, decimal_range = 3) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let conversion;
-                let value = yield this.LOCAL_STORAGE[currency_key];
+                let value = yield this.CACHE.getValue(currency_key);
                 conversion = parseFloat((currency_value / value).toFixed(decimal_range));
-                if (!conversion)
-                    throw new Error("currency_key not exists");
+                if (conversion == 0)
+                    conversion = parseFloat((currency_value / value).toFixed(10));
+                if (isNaN(conversion))
+                    throw new Error("conversion not exists");
                 return conversion;
             }
             catch (error) {
@@ -30,14 +32,16 @@ class CurrencyConverter {
             }
         });
     }
-    static convertUSDToCurrency(currency_key, dolar_value, decimal_range = 3) {
+    convertUSDToCurrency(currency_key, dolar_value, decimal_range = 3) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let conversion;
-                let currency_value = yield this.LOCAL_STORAGE[currency_key];
+                let currency_value = yield this.CACHE.getValue(currency_key);
                 conversion = parseFloat((dolar_value * currency_value).toFixed(decimal_range));
-                if (!conversion)
-                    throw new Error("currency_key not exists");
+                if (conversion == 0)
+                    conversion = parseFloat((dolar_value * currency_value).toFixed(10));
+                if (isNaN(conversion))
+                    throw new Error("conversion not exists");
                 return conversion;
             }
             catch (error) {
@@ -46,7 +50,7 @@ class CurrencyConverter {
             }
         });
     }
-    static convertfromToCurrency(from, to, value, decimal_range = 3) {
+    convertfromToCurrency(from, to, value, decimal_range = 3) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!from)
                 throw new Error("from parameter not found");
@@ -56,10 +60,11 @@ class CurrencyConverter {
                 throw new Error("value must be a number");
             let usd = yield this.convertCurrencyToUSD(from, value, decimal_range);
             let result = yield this.convertUSDToCurrency(to, usd, decimal_range);
+            console.log("result::", result);
             return result;
         });
     }
-    static isValidNumber(number) {
+    isValidNumber(number) {
         return !isNaN(number) && Number(number) > 0;
     }
 }

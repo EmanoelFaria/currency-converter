@@ -3,10 +3,10 @@ import { Cache } from '../Cache/Cache';
 
 export class CurrencyConverter {
 
-    public LOCAL_STORAGE : Cache;
+    public CACHE : Cache;
 
     constructor(){
-        this.LOCAL_STORAGE = new Cache(config.database.name, config.cache.timeout_minute)
+        this.CACHE = new Cache(config.database.name, config.cache.timeout_minute)
     }
 
     /**
@@ -16,16 +16,18 @@ export class CurrencyConverter {
      * @param {number} decimal_range value of decimal numbers after period
      * @returns {number} number value converted into dollars
      */
-    static async convertCurrencyToUSD(currency_key: string, currency_value:number, decimal_range: number = 3){
+    async convertCurrencyToUSD(currency_key: string, currency_value:number, decimal_range: number = 3){
         try {
             
             let conversion: number
 
-            let value = await this.LOCAL_STORAGE[currency_key]
+            let value = await this.CACHE.getValue(currency_key)       
 
             conversion = parseFloat((currency_value / value).toFixed(decimal_range))
             
-            if(!conversion) throw new Error("currency_key not exists")
+            if(conversion == 0) conversion = parseFloat((currency_value / value).toFixed(10)) 
+
+            if(isNaN(conversion)) throw new Error("conversion not exists")
             
             return conversion;
         } catch (error) {
@@ -33,7 +35,7 @@ export class CurrencyConverter {
             throw new Error("Erro ao converter CurrencyToUSD")
         }
     }
-
+    
     /**
      * @description convertUSDToCurrency Converts the dollar value to another currency
      * @param {string} currency_key currency you want to convert
@@ -41,17 +43,19 @@ export class CurrencyConverter {
      * @param {number} decimal_range value of decimal numbers after period
      * @returns {number}
      */
-    static async convertUSDToCurrency(currency_key:string, dolar_value:number, decimal_range:number = 3){
-
+    async convertUSDToCurrency(currency_key:string, dolar_value:number, decimal_range:number = 3){
+        
         try {
             
             let conversion: number
-
-            let currency_value = await this.LOCAL_STORAGE[currency_key];
-
+            
+            let currency_value = await this.CACHE.getValue(currency_key)
+            
             conversion = parseFloat((dolar_value * currency_value).toFixed(decimal_range))
             
-            if(!conversion) throw new Error("currency_key not exists")
+            if(conversion == 0) conversion = parseFloat((dolar_value * currency_value).toFixed(10)) 
+            
+            if(isNaN(conversion)) throw new Error("conversion not exists")
             
             return conversion;
 
@@ -69,7 +73,7 @@ export class CurrencyConverter {
      * @param {number} decimal_range value of decimal numbers after period
      * @returns {number} 
      */
-    static async convertfromToCurrency(from: string ,to: string ,value: number , decimal_range: number = 3): number{
+    async convertfromToCurrency(from: string ,to: string ,value: number , decimal_range: number = 3){
 
         if(!from) throw new Error("from parameter not found");
         if(!to) throw new Error("to parameter not found");
@@ -77,6 +81,8 @@ export class CurrencyConverter {
 
         let usd: number = await this.convertCurrencyToUSD(from,value, decimal_range)
         let result: number = await this.convertUSDToCurrency(to,usd, decimal_range)
+
+        console.log("result::", result)
         return result
     }
 
@@ -85,7 +91,7 @@ export class CurrencyConverter {
      * @param {string | integer} number
      * @returns {boolean}
      */
-    static isValidNumber(number:number): boolean{
+    isValidNumber(number:number): boolean{
         return !isNaN(number) && Number(number) > 0;
     }
 }
