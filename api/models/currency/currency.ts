@@ -1,6 +1,6 @@
 interface Currency {
     key:string,
-    value:number
+    value:string
 }
 
 export { Currency }
