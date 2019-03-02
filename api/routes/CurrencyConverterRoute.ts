@@ -30,9 +30,8 @@ export class CurrencyConverterRoute {
             let from = req.query.from.toUpperCase()
             let to = req.query.to.toUpperCase()
             let amount = req.query.amount
-            let currencies = config.currencies
             
-            let result = await currencyConverter.convertfromToCurrency(from,to,amount,currencies)
+            let result = await currencyConverter.convertfromToCurrency(from,to,amount)
 
             if(!result) {
                 res.status(500).send({error:"There was an error while trying to convert. Try again"})

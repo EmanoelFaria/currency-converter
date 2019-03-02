@@ -43,7 +43,7 @@ export class CurrencyConverter {
      * @param {number} decimal_range value of decimal numbers after period
      * @returns {number}
      */
-    async convertUSDToCurrency(currency_key:string, dolar_value:number, decimal_range:number = 3){
+    async convertUSDToCurrency(currency_key:string, dolar_value:number, decimal_range:number = 2){
         
         try {
             
@@ -73,7 +73,7 @@ export class CurrencyConverter {
      * @param {number} decimal_range value of decimal numbers after period
      * @returns {number} 
      */
-    async convertfromToCurrency(from: string ,to: string ,value: number , decimal_range: number = 3){
+    async convertfromToCurrency(from: string ,to: string ,value: number , decimal_range: number = 2){
 
         if(!from) throw new Error("from parameter not found");
         if(!to) throw new Error("to parameter not found");
