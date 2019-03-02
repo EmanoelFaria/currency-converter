@@ -8,7 +8,7 @@ export class CurrencyConverterRoute {
 
     public static create(router: Router) {
         
-        router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+        router.get("/converter", async (req: Request, res: Response, next: NextFunction) => {
 
             if(!this.hasConversionFields(req.query)) {
                 let fields = Object.keys(req.query).toString()
@@ -58,7 +58,12 @@ export class CurrencyConverterRoute {
      * @returns {boolean}
      */
     static hasConversionFields(query){
-        return ['from','to','amount'].every(f => Object.keys(query).includes(f))
+
+        if(!query.from || !query.to || !query.amount) return false
+        
+        return true
+
+        // return ['from','to','amount'].every(f => Object.keys(query).includes(f))
     }
 
     /**

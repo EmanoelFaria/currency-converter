@@ -1,0 +1,36 @@
+{
+    "compilerOptions";
+    {
+        "target";
+        "es6",
+            "module";
+        "commonjs",
+            "declaration";
+        false,
+            "noImplicitAny";
+        false,
+            "removeComments";
+        true,
+            "sourceMap";
+        false,
+            "rootDir";
+        ".",
+            "outDir";
+        "./dist",
+            "noLib";
+        false,
+            "types";
+        ["node"],
+        ;
+    }
+    "include";
+    [
+        "**/*"
+    ],
+        "exclude";
+    [
+        "node_modules",
+        "**/*.spec.ts",
+        "**/*.map"
+    ];
+}

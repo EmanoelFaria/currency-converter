@@ -1,13 +1,13 @@
 
 //module dependencies
-var server = require("../server");
+var server = require("../dist/server");
 var http = require("http");
 
 
 //create http server
 console.log(process.env.NODE_ENV)
 var port = normalizePort(process.env.PORT || 3000);
-var app = server.Server.bootstrap().app;
+var app = server.Server.startServer().app;
 app.set("port", port);
 var httpServer = http.createServer(app);
 httpServer.listen(port);

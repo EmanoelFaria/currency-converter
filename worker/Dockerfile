@@ -1,4 +1,4 @@
-FROM node:8
+FROM reidweb1/node-typescript:1.0.0
 
 WORKDIR /usr/src/worker
 
@@ -10,4 +10,6 @@ RUN npm install
 
 COPY . .
 
-CMD [ "node", "worker.js" ]
+RUN tsc
+
+CMD [ "node", "dist/worker.js" ]

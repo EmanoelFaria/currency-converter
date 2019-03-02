@@ -1,5 +1,4 @@
 import * as express from "express";
-
 import { CurrencyConverterRoute } from "./routes/CurrencyConverterRoute";
 
 export class Server {
@@ -10,11 +9,10 @@ export class Server {
    * Bootstrap the application.
    *
    * @class Server
-   * @method bootstrap
+   * @method startServer
    * @static
-   * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
    */
-  public static bootstrap(): Server {
+  public static startServer(): Server {
     return new Server();
   }
 

@@ -1,14 +1,14 @@
-
 {
   "name": "worker-currency",
   "version": "1.0.0",
   "description": "Responsável por buscar as cotações e salva-las em database(s)",
   "main": "worker.js",
   "dependencies": {
+    "@types/node": "^11.10.0",
     "config": "^2.0.1",
-    "request": "^2.88.0",
+    "dotenv": "^6.2.0",
     "redis": "^2.8.0",
-    "dotenv": "^6.2.0"
+    "request": "^2.88.0"
   },
   "repository": {
     "type": "git",
@@ -21,4 +21,3 @@
   },
   "homepage": "https://github.com/EmanoelFaria/currency-converter#readme"
 }
-
