@@ -38,3 +38,15 @@ services:
     environment:
       - PORT=3000
       - REDIS_HOST=redis://cache
+  nginx:
+      image: nginx
+      hostname: nginx
+      depends_on:
+        - api
+        - worker
+      ports:
+        - "4000:4000"
+      volumes:
+        - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      networks:
+      - cache
