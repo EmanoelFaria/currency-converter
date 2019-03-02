@@ -30,3 +30,33 @@ Para iniciar o serviço de conversão basta executar o seguinte comando na raiz 
 Para parar o serviço basta executar o seguinte comando:
 
 	$ sudo docker-compose down
+
+
+### Utilizando a API 
+
+A aplicação disponibiliza um serviço de conversão de valores entre seguintes moedas: `USD,BRL,EUR,BTC,ETH`. Tem como moeda de lastro o Dólar `(USD)`. As moedas disponíveis e lastro podem ser adicionadas/alteradas nos arquivos de configuração.
+
+O serviço de conversão é feito por um request do tipo `GET` no path `/converter` passando os parâmetros abaixo por query string
+
+| Parâmetro  | Descrição |
+|--|--|
+| amount | valor que deseja converter |
+| from | moeda do valor a ser convertido |
+| to | moeda destino da conversão |
+
+
+Exemplo de requisição - *GET* 
+
+```
+http://localhost:4000/converter?from=BRL&to=ETH&amount=10
+```
+
+Exemplo de resposta:
+
+    
+	{
+	    "from": "BRL",
+	    "to": "ETH",
+	    "amount": 10,
+	    "result": 0.0019237172
+	}
