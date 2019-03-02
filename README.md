@@ -13,7 +13,7 @@ Assim ao chegar em um novo pais ou região lidar com outra moeda não será mais
 
 ## Iniciando
 
-Para iniciar o projeto basta clonar o repositório e mover até a branch develop.
+Para iniciar o projeto basta clonar o repositório e mover até a branch master.
 
     $ git clone https://github.com/EmanoelFaria/currency-converter.git
     $ cd currency-converter/
