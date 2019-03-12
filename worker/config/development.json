@@ -13,7 +13,8 @@
         }
     },
     "worker":{
-        "refresh_currency_time_minute": 10
+        "time_to_refresh_currencies_in_minutes": 10,
+        "max_error_count_to_stop":5
     }
 
 
