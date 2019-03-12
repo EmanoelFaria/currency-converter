@@ -13,6 +13,11 @@ export class Worker {
     CURRENCY_CLIENT: CurrencyExchange;
     DATABASE_CLIENT: Database;
     
+    /**
+     * @param {string} provider Name of provider that will be used to get currencies
+     * @param {string} database Name of database that will be used to store currencies
+
+     */
     constructor(provider:string, database:string ){
         
         this.createProvider(provider);
@@ -21,6 +26,10 @@ export class Worker {
 
     }
 
+    /**
+     * @description Creates quotations provider
+     * @param {string} provider Name of the quote provider that will be created
+     */
     public createProvider(provider:string){
 
         let currencies = config.CurrencyExchanges[provider].currencies
@@ -30,6 +39,10 @@ export class Worker {
 
     }
 
+    /**
+     * @description Creates a database that will be used by the worker
+     * @param {string} database_name Name of the database that will be used
+     */
     public createDatabase(database_name:string){
 
         const databaseFactory = new DatabaseFactory()
@@ -37,7 +50,11 @@ export class Worker {
 
     }
 
-    public async init(){
+    /**
+     * @description init executes the worker's routine based on the configured time.
+     * @param {number} error_count number of accumulated errors
+     */
+    public async init(error_count?){
 
         try {
             
@@ -47,17 +64,29 @@ export class Worker {
                 this.DATABASE_CLIENT.setKey(currency.key, currency.value)
             }
 
-            let value = await this.DATABASE_CLIENT.getKey(currencies[0].key)
-            console.log(currencies[0].key, value)
-
+            setTimeout(() => this.init(), config.worker.time_to_refresh_currencies_in_minutes * 60 * 1000);
+            
         } catch (error) {
-            console.log(error)
+
+            if(error_count && error_count >= config.worker.max_error_count_to_stop) {
+                console.log(error)
+                console.log("Muitos erros, o worker será finalizado")
+                return
+            }
+
+            error_count += 1;
+            setTimeout(() => this.init(error_count), config.worker.time_to_refresh_currencies_in_minutes * 60 * 1000);
         }
 
     }
 
 }
 
-let wk1 = new Worker("OpenExchange","Redis")
-// let wk2 = new Worker("OutroServidorDeCotações")
+//TODO: Colocar exemplo melhor de codigo de criação de worker
+//TODO: Criar uma classe init para nao iniciar o codigo aqui na classe do worker
+//TODO: Remover codigos nao utilizados nos arquivos de configuração do worker
+
+new Worker("OpenExchange","Redis")
+// let workerOpenExchangeWithRedis = new Worker("OpenExchange","Redis")
+// let workerWorldExchangeWithMysql = new Worker("WorldExchange","Mysql")
 
